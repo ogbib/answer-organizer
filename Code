@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Number Line Identifier</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #container { width: 80%; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        #fileInput { padding: 10px; border: none; border-radius: 5px; background-color: #4CAF50; color: white; cursor: pointer; }
+        #fileInput:hover { background-color: #3e8e41; }
+        #contents { padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <h2>Upload Your Document</h2>
+    <input type="file" id="fileInput" accept=".txt,.doc,.docx">
+    <div id="contents"></div>
+</div>
+
+<script>
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const contents = e.target.result;
+            const lines = contents.split('\n');
+            const numberedLines = lines.filter(line => /\d/.test(line));
+            const html = numberedLines.map(line => `<p>${line}</p>`).join('');
+            document.getElementById('contents').innerHTML = html;
+        };
+        reader.readAsText(file);
+    });
+</script>
+
+</body>
+</html>
